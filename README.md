@@ -1,6 +1,6 @@
 # 👋 Hey there, I'm Shanmu!
 
-Web Developer. I love crafting beautiful, performant mobile applications while ensuring robust server-side architecture.
+Web Developer. I love crafting beautiful, performant Web applications while ensuring robust server-side architecture.
 
 <div align="left">
 <img height="85" />
