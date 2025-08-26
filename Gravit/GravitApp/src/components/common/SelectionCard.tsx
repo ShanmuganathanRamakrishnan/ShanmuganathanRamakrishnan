@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
-import { COLORS, FONTS, SPACING } from '../../constants/theme';
+import { COLORS, FONTS, SPACING } from '@/constants/theme';
 
 interface SelectionCardProps {
   title: string;
@@ -19,7 +19,13 @@ const SelectionCard: React.FC<SelectionCardProps> = ({ title, description, icon,
   ];
 
   return (
-    <TouchableOpacity onPress={onPress} style={cardStyle}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={cardStyle}
+      accessibilityRole="button"
+      accessibilityState={{ selected: !!isSelected }}
+      accessibilityLabel={`${title}. ${description}`}
+    >
       <View style={styles.iconContainer}>{icon}</View>
       <View style={styles.textContainer}>
         <Text style={styles.title}>{title}</Text>

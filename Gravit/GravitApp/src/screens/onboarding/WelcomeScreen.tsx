@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import StyledButton from '../../components/common/StyledButton';
-import { COLORS, FONTS, SPACING } from '../../constants/theme';
+import StyledButton from '@/components/common/StyledButton';
+import { COLORS, FONTS, SPACING } from '@/constants/theme';
 
 interface WelcomeScreenProps {
   onContinue: () => void;

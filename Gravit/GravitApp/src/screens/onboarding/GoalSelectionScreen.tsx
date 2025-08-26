@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import SelectionCard from '../../components/common/SelectionCard';
-import StyledButton from '../../components/common/StyledButton';
-import { COLORS, FONTS, SPACING } from '../../constants/theme';
+import SelectionCard from '@/components/common/SelectionCard';
+import StyledButton from '@/components/common/StyledButton';
+import { COLORS, FONTS, SPACING } from '@/constants/theme';
 
 type Goal = 'build_muscle' | 'lose_weight' | 'improve_fitness';
 
@@ -14,7 +14,7 @@ const GOALS = [
 ];
 
 interface GoalSelectionScreenProps {
-  onGoalSelected: () => void;
+  onGoalSelected: (goal: Goal) => void;
 }
 
 const GoalSelectionScreen: React.FC<GoalSelectionScreenProps> = ({ onGoalSelected }) => {
@@ -35,7 +35,7 @@ const GoalSelectionScreen: React.FC<GoalSelectionScreenProps> = ({ onGoalSelecte
           />
         ))}
       </View>
-      <StyledButton title="Continue" onPress={onGoalSelected} disabled={!selectedGoal} />
+      <StyledButton title="Continue" onPress={() => selectedGoal && onGoalSelected(selectedGoal)} disabled={!selectedGoal} />
     </SafeAreaView>
   );
 };
