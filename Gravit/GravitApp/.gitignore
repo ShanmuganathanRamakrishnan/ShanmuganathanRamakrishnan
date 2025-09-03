@@ -36,9 +36,4 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-# GCP sensitive files
-GCP.md
-load-gcp.bat
-load-gcp.sh
-
 app-example
