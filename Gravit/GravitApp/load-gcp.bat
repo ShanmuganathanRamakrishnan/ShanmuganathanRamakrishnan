@@ -1,0 +1,19 @@
+@echo off
+echo Loading Gravit App Global Context Prompt...
+echo.
+echo Project: Gravit - Smart Fitness Mobile App
+echo Stack: React Native (Expo), TypeScript, React Navigation
+echo Design: Dark theme, card-based layouts, Inter font, orange accent (#ff6b47)
+echo.
+echo Key Rules:
+echo 1. Always use tokens from src/constants/fitness_design_system.json
+echo 2. Place screens in src/screens/{Section}/ScreenName.tsx
+echo 3. UI-only components with placeholder handlers (no Firebase yet)
+echo 4. TypeScript functional components with hooks
+echo.
+echo Navigation Flow:
+echo Auth Stack → LoginRegisterScreen
+echo Main Tabs → Home, Programs, Active Workout, Progress, Awards, Profile
+echo.
+echo For full context, see GCP.md file
+echo.
