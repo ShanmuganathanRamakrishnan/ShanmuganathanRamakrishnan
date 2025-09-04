@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, StatusBar, SafeAreaView, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, StatusBar, SafeAreaView } from 'react-native';
 import { colors, typography, spacing, components, borderRadius } from '@/constants/theme';
-
-const { width, height } = Dimensions.get('window');
+import InputField from '@/components/InputField';
+import SocialLoginButtons from '@/components/SocialLoginButtons';
 
 const LoginRegisterScreen = () => {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [isEmailFocused, setIsEmailFocused] = useState(false);
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
-  const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] = useState(false);
 
   const handleAuth = () => {
     console.log(`${isLoginMode ? 'Login' : 'Register'} pressed with:`, { email, password });
@@ -51,6 +48,10 @@ const LoginRegisterScreen = () => {
     Alert.alert('Forgot Password', 'Password reset functionality would be implemented here');
   };
 
+  const handleSocialLogin = (provider: string) => {
+    Alert.alert('Social Login', `Continue with ${provider} would be implemented here`);
+  };
+
   const isFormValid = () => {
     if (isLoginMode) {
       return email.length > 0 && password.length > 0;
@@ -60,126 +61,108 @@ const LoginRegisterScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor={colors.primary.background} />
-      
-      <View style={styles.contentContainer}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.mainHeading}>
-            {isLoginMode ? 'Login' : 'Register'}
-          </Text>
-          <Text style={styles.subHeading}>
-            {isLoginMode 
-              ? 'Sign in to continue' 
-              : 'Create your account'}
-          </Text>
-        </View>
+    <View style={{ flex: 1, backgroundColor: '#141414' }}>
+      <StatusBar barStyle="light-content" backgroundColor="#141414" />
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.mainHeading}>
+                {isLoginMode ? 'Login' : 'Register'}
+              </Text>
+              <Text style={styles.subHeading}>
+                {isLoginMode 
+                  ? 'Continue your workout progress' 
+                  : 'Start your fitness transformation'}
+              </Text>
+            </View>
 
-        <View style={styles.formContainer}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Email</Text>
-            <TextInput
-              style={[
-                styles.input, 
-                isEmailFocused && styles.inputFocused
-              ]}
-              value={email}
-              onChangeText={setEmail}
-              onFocus={() => setIsEmailFocused(true)}
-              onBlur={() => setIsEmailFocused(false)}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              placeholder="Enter your email address"
-              placeholderTextColor={colors.text.muted}
-            />
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
-              style={[
-                styles.input, 
-                isPasswordFocused && styles.inputFocused
-              ]}
-              value={password}
-              onChangeText={setPassword}
-              onFocus={() => setIsPasswordFocused(true)}
-              onBlur={() => setIsPasswordFocused(false)}
-              secureTextEntry
-              autoCapitalize="none"
-              autoCorrect={false}
-              placeholder="Enter your password"
-              placeholderTextColor={colors.text.muted}
-            />
-          </View>
-
-          {!isLoginMode && (
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Confirm Password</Text>
-              <TextInput
-                style={[
-                  styles.input, 
-                  isConfirmPasswordFocused && styles.inputFocused
-                ]}
-                value={confirmPassword}
-                onChangeText={setConfirmPassword}
-                onFocus={() => setIsConfirmPasswordFocused(true)}
-                onBlur={() => setIsConfirmPasswordFocused(false)}
-                secureTextEntry
+            <View style={styles.formContainer}>
+              <InputField
+                label="Email"
+                value={email}
+                onChangeText={setEmail}
+                placeholder="Enter your email address"
+                keyboardType="email-address"
                 autoCapitalize="none"
                 autoCorrect={false}
-                placeholder="Confirm your password"
-                placeholderTextColor={colors.text.muted}
               />
-            </View>
-          )}
 
-          {isLoginMode && (
-            <View style={styles.forgotPasswordContainer}>
-              <TouchableOpacity onPress={handleForgotPassword}>
-                <Text style={styles.forgotPasswordText}>
-                  Forgot Password?
+              <InputField
+                label="Password"
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Enter your password"
+                secureTextEntry={true}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+
+              {!isLoginMode && (
+                <InputField
+                  label="Confirm Password"
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  placeholder="Confirm your password"
+                  secureTextEntry={true}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              )}
+
+              {isLoginMode && (
+                <View style={styles.forgotPasswordContainer}>
+                  <TouchableOpacity onPress={handleForgotPassword}>
+                    <Text style={styles.forgotPasswordText}>
+                      Forgot Password?
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+
+              <TouchableOpacity 
+                style={[
+                  styles.primaryButton,
+                  !isFormValid() && styles.disabledButton
+                ]}
+                onPress={handleAuth}
+                disabled={!isFormValid()}
+              >
+                <Text style={styles.primaryButtonText}>
+                  {isLoginMode ? 'Sign In' : 'Create Account'}
                 </Text>
               </TouchableOpacity>
+
+              <SocialLoginButtons onSocialLogin={handleSocialLogin} />
+
+              <View style={styles.switchModeContainer}>
+                <Text style={styles.switchModeText}>
+                  {isLoginMode 
+                    ? "Don't have an account?" 
+                    : "Already have an account?"}
+                </Text>
+                <TouchableOpacity onPress={toggleAuthMode}>
+                  <Text style={styles.switchModeLink}>
+                    {isLoginMode ? "Create an account" : "Sign in"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          )}
-
-          <TouchableOpacity 
-            style={[
-              styles.primaryButton,
-              !isFormValid() && styles.disabledButton
-            ]}
-            onPress={handleAuth}
-            disabled={!isFormValid()}
-          >
-            <Text style={styles.primaryButtonText}>
-              {isLoginMode ? 'Sign In' : 'Create Account'}
-            </Text>
-          </TouchableOpacity>
-
-          <View style={styles.switchModeContainer}>
-            <Text style={styles.switchModeText}>
-              {isLoginMode 
-                ? "Don't have an account?" 
-                : "Already have an account?"}
-            </Text>
-            <TouchableOpacity onPress={toggleAuthMode}>
-              <Text style={styles.switchModeLink}>
-                {isLoginMode ? "Create an account" : "Sign in"}
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#141414', // Explicit black background for SafeAreaView
+  },
   container: {
     flex: 1,
-    backgroundColor: colors.primary.background,
+    backgroundColor: '#141414', // Explicit black background for container
   },
   contentContainer: {
     flex: 1,
@@ -187,65 +170,47 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: spacing.md,
     width: '100%',
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.xl,
   },
   headerContainer: {
     alignItems: 'center',
-    marginBottom: spacing.xl,
+    marginBottom: spacing.lg,
     width: '100%',
+    minHeight: 80, // Increased fixed height for better positioning consistency
   },
   mainHeading: {
     ...typography.hero,
     color: colors.text.primary,
     textAlign: 'center',
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   subHeading: {
     ...typography.body,
-    color: colors.text.secondary,
+    color: colors.accent.primary, // Changed to orange color
     textAlign: 'center',
+    minHeight: 40, // Fixed height to ensure consistent positioning
   },
   formContainer: {
     width: '100%',
     maxWidth: 400,
   },
-  inputContainer: {
-    marginBottom: spacing.lg,
-  },
-  inputLabel: {
-    ...typography.caption,
-    color: colors.text.primary,
-    marginBottom: spacing.sm,
-    fontWeight: '600',
-  },
-  input: {
-    ...components.input,
-    borderRadius: borderRadius.lg,
-    backgroundColor: colors.primary.surface,
-    color: colors.text.primary,
-    fontSize: 16,
-    padding: spacing.md,
-    minHeight: 50,
-  },
-  inputFocused: {
-    ...components.inputFocus,
-    shadowColor: colors.accent.primary,
-  },
   forgotPasswordContainer: {
     alignItems: 'center',
-    marginBottom: spacing.lg,
-    marginTop: -spacing.sm,
+    marginBottom: spacing.md,
+    marginTop: 0,
   },
   forgotPasswordText: {
     ...typography.caption,
     color: colors.text.accent,
-    textDecorationLine: 'underline',
+    // Removed textDecorationLine: 'underline'
   },
   primaryButton: {
     ...components.button.primary,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    marginVertical: spacing.sm,
+    marginVertical: spacing.md,
     paddingVertical: spacing.md,
     borderRadius: borderRadius.lg,
     opacity: 1,
@@ -256,19 +221,19 @@ const styles = StyleSheet.create({
     color: components.button.primary.color,
   },
   switchModeContainer: {
-    marginTop: spacing.xl,
+    marginTop: spacing.md,
     alignItems: 'center',
   },
   switchModeText: {
     ...typography.body,
     color: colors.text.secondary,
     textAlign: 'center',
-    marginBottom: spacing.sm,
+    marginBottom: spacing.xs,
   },
   switchModeLink: {
     ...typography.body,
     color: colors.text.accent,
-    textDecorationLine: 'underline',
+    // Removed textDecorationLine: 'underline'
     textAlign: 'center',
   },
   disabledButton: {

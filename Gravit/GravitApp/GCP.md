@@ -26,6 +26,9 @@ This file contains the essential context for working on the Gravit Mobile App pr
 - Clean, modular, production-ready code
 - Placeholder logic for backend until Firebase is connected
 
+## Progress Tracking
+For completed features and ongoing progress, see [GCP-PROGRESS.md](GCP-PROGRESS.md)
+
 ## File Structure
 ```
 src/
